@@ -1,0 +1,92 @@
+<?php
+include "blank.php";
+
+function content(){
+  $conn=new connection();
+
+
+?>
+ <div id="page-wrapper">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header">Tables</h1>
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+            <!-- /.row -->
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            DataTables Advanced Tables
+                        </div>
+                        <!-- /.panel-heading -->
+                        <div class="panel-body">
+                            <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
+           
+
+
+  
+  <thead>
+              <tr> <th>email</th> <th>ip</th>  <th>Visit date </th> <th>Visit time </th>  </tr>
+          </thead>
+          
+
+          <tbody>
+<?php
+         
+         $prepare ='SELECT * FROM user';
+         $stmt= $conn->DBC->prepare($prepare);
+         $stmt->execute();
+         while($data = $stmt->fetch( PDO::FETCH_ASSOC )){
+         if($data['type']=='user'&&$data['ip']!='' ){
+          $prepare1 ='SELECT * FROM visits';
+         $stmt1= $conn->DBC->prepare($prepare1);
+         $stmt1->execute();
+         $prepare2 ='SELECT * FROM visits';
+         $stmt2= $conn->DBC->prepare($prepare2);
+         $stmt2->execute();
+          $prepare3 ='SELECT * FROM visits';
+         $stmt3= $conn->DBC->prepare($prepare3);
+         $stmt3->execute();
+    ?>
+
+    <tr> <td> <?php echo $data['email']; ?></td> 
+
+    <td><?php while($data1 = $stmt1->fetch( PDO::FETCH_ASSOC )){if($data1['email']==$data['email']) {if($data['ip']=='::1') echo nl2br( 'localhost'. "\n"); else echo nl2br( $data1['ip']."\n"); }}?></td>  
+
+    <td><?php while($data3 = $stmt3->fetch( PDO::FETCH_ASSOC )){if($data3['email']==$data['email']) { echo nl2br( $data3['date']."\n"); }}?></td>
+
+    <td><?php while($data2 = $stmt2->fetch( PDO::FETCH_ASSOC )){if($data2['email']==$data['email']){echo nl2br( $data2['time']."\n"); }}?></td>
+
+             
+
+
+    </tr>
+    <?php }} ?>
+                 
+  
+
+
+          </tbody>
+
+                            </table>
+                            <!-- /.table-responsive -->
+                            <div class="well">
+                                <h4>DataTables Usage Information</h4>
+                                <p>DataTables is a very flexible, advanced tables plugin for jQuery. In SB Admin, we are using a specialized version of DataTables built for Bootstrap 3. We have also customized the table headings to use Font Awesome icons in place of images. For complete documentation on DataTables, visit their website at <a target="_blank" href="https://datatables.net/">https://datatables.net/</a>.</p>
+                                <a class="btn btn-default btn-lg btn-block" target="_blank" href="https://datatables.net/">View DataTables Documentation</a>
+                            </div>
+                             </div>
+                        <!-- /.panel-body -->
+                    </div>
+                    <!-- /.panel -->
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+            </div>
+
+ 
+ <?php                   
+}
+?>
